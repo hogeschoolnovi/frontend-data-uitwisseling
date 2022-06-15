@@ -1,0 +1,24 @@
+table, td, th {
+    border: 1px solid darkcyan;
+}
+
+th {
+    background-color: darkcyan;
+    color: white;
+    text-align: left;
+}
+
+td, th {
+    padding: 8px;
+}
+
+td > img {
+    width: 60px;
+    border-radius: 50%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 90%;
+    margin: 20px 0;
+}

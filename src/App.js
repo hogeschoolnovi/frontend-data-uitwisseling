@@ -1,24 +1,36 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import { Link, Route, Switch } from 'react-router-dom';
+import ImageRequestPage from './pages/imageRequest/ImageRequestPage';
+import PostRequestPage from './pages/postRequest/PostRequestPage';
+import GetRequestPage from './pages/getRequest/GetRequestPage';
+import HomePage from './pages/home/HomePage';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <nav>
+        <ul>
+          <li><Link to="/get-request">GET-request</Link></li>
+          <li><Link to="/post-request">POST-request</Link></li>
+          <li><Link to="/image-request">Bestanden</Link></li>
+        </ul>
+      </nav>
+      <Switch>
+        <Route exact path="/">
+          <HomePage />
+        </Route>
+        <Route exact path="/get-request">
+          <GetRequestPage />
+        </Route>
+        <Route exact path="/post-request">
+          <PostRequestPage />
+        </Route>
+        <Route exact path="/image-request">
+          <ImageRequestPage />
+        </Route>
+      </Switch>
+    </>
   );
 }
 
