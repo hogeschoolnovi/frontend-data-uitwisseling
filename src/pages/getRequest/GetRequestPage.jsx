@@ -1,24 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './GetRequestPage.css';
+import useStudents from "../../hooks/UseStudents";
 
 function GetRequestPage() {
-  const [students, setStudents] = useState([]);
 
-  useEffect(() => {
-    async function fetchStudents() {
-      try {
-        const response = await axios.get('http://localhost:8080/students');
-        // Plaats alle studenten in de state zodat we het op de pagina kunnen gebruiken
-        setStudents(response.data);
-        console.log(response.data);
-      } catch(e) {
-          console.error(e);
-      }
-    }
-
-    fetchStudents();
-  }, []);
+const {students} = useStudents('http://localhost:8080/students')
 
   return (
     <div className="page-container">
