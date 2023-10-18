@@ -66,6 +66,7 @@ function ImageRequestPage() {
       <h1>Afbeelding uploaden en preview bekijken</h1>
         <h3>Voor welke student wil je een profielfoto uploaden?</h3>
         <select name="student" id="student" onChange={handleStudentNumber}>
+          <option disabled selected value> -- select an option -- </option>
           {students && students.map((studentNumber) => {
             return <option value={studentNumber.studentNumber}>{studentNumber.name}</option>
           })}
@@ -90,6 +91,7 @@ function ImageRequestPage() {
         <h1>Afbeelding uploaden en preview bekijken</h1>
         <h3>Voor welke student wil je een cijferlijst uploaden?</h3>
         <select name="student" id="student">
+          <option disabled selected value> -- select an option -- </option>
           {students && students.map((studentNumber) => {
             return <option value={studentNumber.studentNumber}>{studentNumber.name}</option>
           })}
