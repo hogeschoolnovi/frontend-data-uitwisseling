@@ -16,7 +16,7 @@ const UseStudents = (url) => {
             }
         }
         void fetchStudents()
-    }, []);
+    }, [url]);
     return { students }
 };
 
