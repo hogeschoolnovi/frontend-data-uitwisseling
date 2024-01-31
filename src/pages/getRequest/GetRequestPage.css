@@ -22,3 +22,11 @@ table {
     width: 90%;
     margin: 20px 0;
 }
+.download-container{
+    display: flex;
+    justify-content: center;
+}
+
+.image-container{
+    width: 100%
+}
