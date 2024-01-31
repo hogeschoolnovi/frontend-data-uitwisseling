@@ -5,14 +5,25 @@ import useStudents from "../../hooks/UseStudents";
 import useDownload from "../../hooks/useDownload";
 
 function GetRequestPage() {
+    const [getList, setGetList] = useState(false)
+    const {students} = useStudents('http://localhost:8080/students', getList)
 
-    const {students} = useStudents('http://localhost:8080/students')
     const {
         imageData,
         loading,
         error,
         fetchData
     } = useDownload('http://localhost:8080/students');
+
+    async function deleteUser(id){
+        try{
+            await axios.delete(`http://localhost:8080/students/${id}`)
+            window.alert('User successfully deleted!');
+            setGetList(!getList)
+        }catch (e) {
+            console.error(e)
+        }
+    }
 
     return (
         <div className="page-container">
@@ -26,6 +37,7 @@ function GetRequestPage() {
                     <th>Opleiding</th>
                     <th>Emailadres</th>
                     <th>Diploma</th>
+                    <th>Verwijderen</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -41,6 +53,7 @@ function GetRequestPage() {
                         <td>{student.emailAddress}</td>
                         <td>{student.diploma && <img src={student.diploma.url} alt={student.name}
                                                      onClick={() => fetchData(`${student.studentNumber}/diploma`)}/>}</td>
+                        <td><button onClick={() => deleteUser(student.studentNumber)}>Verwijder</button></td>
                     </tr>
                 })}
                 </tbody>
