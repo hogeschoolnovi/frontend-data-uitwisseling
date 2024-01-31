@@ -36,7 +36,7 @@ function GetRequestPage() {
                         {/*Even checken of er uberhaupt een file is, en zo ja, dan laten we hem zien!*/}
                         <td>{student.studentPhoto && <img src={student.studentPhoto.url} alt={student.name}
                                                           onClick={() => fetchData(`${student.studentNumber}/photo`)}/>}</td>
-                        <td>{student.name}</td>
+                        <td><strong>{student.name[0].toUpperCase() + student.name.slice(1)}</strong></td>
                         <td>{student.course}</td>
                         <td>{student.emailAddress}</td>
                         <td>{student.diploma && <img src={student.diploma.url} alt={student.name}
