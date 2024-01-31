@@ -7,7 +7,12 @@ import useDownload from "../../hooks/useDownload";
 function GetRequestPage() {
 
     const {students} = useStudents('http://localhost:8080/students')
-    const {imageData, loading, error, fetchData} = useDownload('http://localhost:8080/students');
+    const {
+        imageData,
+        loading,
+        error,
+        fetchData
+    } = useDownload('http://localhost:8080/students');
 
     return (
         <div className="page-container">
@@ -41,7 +46,8 @@ function GetRequestPage() {
                 </tbody>
             </table>
             <div className="download-container">
-                {loading ? <p>Loading...</p> : imageData && <img className='image-container' src={imageData} alt="blob"/>}
+                {loading ? <p>Loading...</p> : imageData &&
+                    <img className='image-container' src={imageData} alt="blob"/>}
                 {error && <p>Something went wrong!</p>}
             </div>
         </div>

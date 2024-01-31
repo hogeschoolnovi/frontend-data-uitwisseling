@@ -1,22 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import './ImageRequestPage.css';
-import axios from 'axios';
 import useStudents from "../../hooks/UseStudents";
 import useUpload from "../../hooks/UseUpload";
 
 function ImageRequestPage() {
 
     const {
-        image,
-        previewUrl,
+        previewUrlPhoto,
+        previewUrlDiploma,
         studentNumber,
         handleImageChange,
-        sendImage,
-        sendDiploma,
+        sendUpload,
         handleStudentNumber
-    } = useUpload();
+    } = useUpload('http://localhost:8080/students/');
 
     const {students} = useStudents('http://localhost:8080/students')
+
     return (
         <div className="upload-page-container">
             <div className="first-page-container">
@@ -29,15 +28,16 @@ function ImageRequestPage() {
                                        value={studentNumber.studentNumber}>{studentNumber.name}</option>
                     })}
                 </select>
-                <form onSubmit={() => sendImage(`http://localhost:8080/students/${studentNumber}`)}>
+                <form onSubmit={() => sendUpload(studentNumber, 'photo')}>
                     <label htmlFor="student-image">
                         Kies afbeelding:
-                        <input type="file" name="image-field" id="student-image" onChange={handleImageChange}/>
+                        <input type="file" name="image-field" id="student-image"
+                               onChange={(e) => handleImageChange(e, 'photo')}/>
                     </label>
-                    {previewUrl &&
+                    {previewUrlPhoto &&
                         <label>
                             Preview:
-                            <img src={previewUrl} alt="Voorbeeld van de afbeelding die zojuist gekozen is"
+                            <img src={previewUrlPhoto} alt="Voorbeeld van de afbeelding die zojuist gekozen is"
                                  className="image-preview"/>
                         </label>
                     }
@@ -54,15 +54,16 @@ function ImageRequestPage() {
                                        value={studentNumber.studentNumber}>{studentNumber.name}</option>
                     })}
                 </select>
-                <form onSubmit={() => sendDiploma(`http://localhost:8080/students/${studentNumber}`)}>
+                <form onSubmit={() => sendUpload(studentNumber, 'diploma')}>
                     <label htmlFor="student-image">
                         Kies afbeelding:
-                        <input type="file" name="image-field" id="student-image" onChange={handleImageChange}/>
+                        <input type="file" name="image-field" id="student-image"
+                               onChange={(e) => handleImageChange(e, 'diploma')}/>
                     </label>
-                    {previewUrl &&
+                    {previewUrlDiploma &&
                         <label>
                             Preview:
-                            <img src={previewUrl} alt="Voorbeeld van de afbeelding die zojuist gekozen is"
+                            <img src={previewUrlDiploma} alt="Voorbeeld van de afbeelding die zojuist gekozen is"
                                  className="image-preview"/>
                         </label>
                     }
