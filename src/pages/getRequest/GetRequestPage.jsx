@@ -15,12 +15,12 @@ function GetRequestPage() {
         fetchData
     } = useDownload('http://localhost:8080/students');
 
-    async function deleteUser(id){
-        try{
+    async function deleteUser(id) {
+        try {
             await axios.delete(`http://localhost:8080/students/${id}`)
             window.alert('User successfully deleted!');
             setGetList(!getList)
-        }catch (e) {
+        } catch (e) {
             console.error(e)
         }
     }
@@ -53,7 +53,9 @@ function GetRequestPage() {
                         <td>{student.emailAddress}</td>
                         <td>{student.diploma && <img src={student.diploma.url} alt={student.name}
                                                      onClick={() => fetchData(`${student.studentNumber}/diploma`)}/>}</td>
-                        <td><button onClick={() => deleteUser(student.studentNumber)}>Verwijder</button></td>
+                        <td>
+                            <button onClick={() => deleteUser(student.studentNumber)}>Verwijder</button>
+                        </td>
                     </tr>
                 })}
                 </tbody>

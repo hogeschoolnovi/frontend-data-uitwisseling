@@ -1,7 +1,7 @@
 import React from 'react';
 import './ImageRequestPage.css';
-import useStudents from "../../hooks/UseStudents";
-import useUpload from "../../hooks/UseUpload";
+import UseStudents from "../../hooks/UseStudents";
+import UseUpload from "../../hooks/UseUpload";
 
 function ImageRequestPage() {
 
@@ -12,9 +12,9 @@ function ImageRequestPage() {
         handleImageChange,
         sendUpload,
         handleStudentNumber
-    } = useUpload('http://localhost:8080/students/');
+    } = UseUpload('http://localhost:8080/students/');
 
-    const {students} = useStudents('http://localhost:8080/students')
+    const {students} = UseStudents('http://localhost:8080/students')
 
     return (
         <div className="upload-page-container">
