@@ -1,20 +1,63 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './ImageRequestPage.css';
-import UseStudents from "../../hooks/UseStudents";
-import UseUpload from "../../hooks/UseUpload";
+import axios from "axios";
 
 function ImageRequestPage() {
 
-    const {
-        previewUrlPhoto,
-        previewUrlDiploma,
-        studentNumber,
-        handleImageChange,
-        sendUpload,
-        handleStudentNumber
-    } = UseUpload('http://localhost:8080/students/');
+    const [students, setStudents] = useState([]);
+    const [image, setImage] = useState('');
+    const [previewUrlPhoto, setPreviewUrlPhoto] = useState('');
+    const [previewUrlDiploma, setPreviewUrlDiploma] = useState('');
+    const [studentNumber, setStudentNumber] = useState(0);
 
-    const {students} = UseStudents('http://localhost:8080/students')
+    const handleImageChange = (e, path) => {
+        e.preventDefault();
+        const uploadedImage = e.target.files[0];
+        setImage(uploadedImage);
+        console.log(e.target.files[0])
+
+        if (path === 'photo'){
+            setPreviewUrlPhoto(URL.createObjectURL(uploadedImage));
+        } else{
+            setPreviewUrlDiploma(URL.createObjectURL(uploadedImage))
+        }
+    };
+
+    const sendUpload = async (id, path) => {
+        try {
+            const formData = new FormData();
+            formData.append("file", image);
+
+            const result = await axios.post(`http://localhost:8080/students/${id}/${path}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
+            });
+            console.log(result.data);
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    const handleStudentNumber = (e) => {
+        e.preventDefault();
+        setStudentNumber(e.target.value);
+        console.log(e.target.value)
+    };
+
+    useEffect(() => {
+        async function fetchStudents() {
+            try {
+                const response = await axios.get('http://localhost:8080/students');
+                // Plaats alle studenten in de state zodat we het op de pagina kunnen gebruiken
+                setStudents(response.data);
+                console.log(response.data);
+            } catch(e) {
+                console.error(e);
+            }
+        }
+        void fetchStudents()
+    }, []);
 
     return (
         <div className="upload-page-container">
