@@ -1,7 +1,7 @@
 import React from 'react';
 import './ImageRequestPage.css';
-import UseStudents from "../../hooks/UseStudents";
-import UseUpload from "../../hooks/UseUpload";
+import UseStudents from "../../hooks/useStudents";
+import UseUpload from "../../hooks/useUpload";
 
 function ImageRequestPage() {
 

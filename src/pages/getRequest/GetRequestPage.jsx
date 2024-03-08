@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import './GetRequestPage.css';
-import useStudents from "../../hooks/UseStudents";
+import useStudents from "../../hooks/useStudents";
 import useDownload from "../../hooks/useDownload";
 
 function GetRequestPage() {
