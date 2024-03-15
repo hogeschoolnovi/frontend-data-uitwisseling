@@ -3,47 +3,13 @@ import './ImageRequestPage.css';
 import axios from "axios";
 
 function ImageRequestPage() {
-
     const [students, setStudents] = useState([]);
     const [image, setImage] = useState('');
     const [previewUrlPhoto, setPreviewUrlPhoto] = useState('');
     const [previewUrlDiploma, setPreviewUrlDiploma] = useState('');
     const [studentNumber, setStudentNumber] = useState(0);
-
-    const handleImageChange = (e, path) => {
-        e.preventDefault();
-        const uploadedImage = e.target.files[0];
-        setImage(uploadedImage);
-        console.log(e.target.files[0])
-
-        if (path === 'photo'){
-            setPreviewUrlPhoto(URL.createObjectURL(uploadedImage));
-        } else{
-            setPreviewUrlDiploma(URL.createObjectURL(uploadedImage))
-        }
-    };
-
-    const sendUpload = async (id, path) => {
-        try {
-            const formData = new FormData();
-            formData.append("file", image);
-
-            const result = await axios.post(`http://localhost:8080/students/${id}/${path}`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                },
-            });
-            console.log(result.data);
-        } catch (e) {
-            console.error(e);
-        }
-    };
-
-    const handleStudentNumber = (e) => {
-        e.preventDefault();
-        setStudentNumber(e.target.value);
-        console.log(e.target.value)
-    };
+    const [error, setError] = useState(null);
+    const [succes, toggleSucces] = useState(false);
 
     useEffect(() => {
         async function fetchStudents() {
@@ -56,8 +22,49 @@ function ImageRequestPage() {
                 console.error(e);
             }
         }
-        void fetchStudents()
+        void fetchStudents();
     }, []);
+
+    function handleImageChange(e, type) {
+        e.preventDefault();
+        const uploadedImage = e.target.files[0];
+        setImage(uploadedImage);
+        console.log(e.target.files[0])
+
+        if (type === 'photo'){
+            setPreviewUrlPhoto(URL.createObjectURL(uploadedImage));
+        } else{
+            setPreviewUrlDiploma(URL.createObjectURL(uploadedImage))
+        }
+    }
+
+    async function sendUpload(id, path) {
+        setError(null);
+        toggleSucces(false);
+
+        try {
+            const formData = new FormData();
+            formData.append("file", image);
+
+            const result = await axios.post(`http://localhost:8080/students/${id}/${path}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
+            });
+            console.log(result.data);
+            toggleSucces(true);
+        } catch (e) {
+            console.error(e);
+            setError(e);
+        }
+    }
+
+    function handleStudentNumber(e) {
+        e.preventDefault();
+        setStudentNumber(e.target.value);
+        console.log('Gekozen studentnummer is:', e.target.value);
+    }
+
 
     return (
         <div className="upload-page-container">
@@ -66,10 +73,13 @@ function ImageRequestPage() {
                 <h3>Voor welke student wil je een profielfoto uploaden?</h3>
                 <select name="student" id="student" defaultValue='DEFAULT' onChange={handleStudentNumber}>
                     <option disabled value='DEFAULT'> -- select an option --</option>
-                    {students && students.map((studentNumber) => {
-                        return <option key={studentNumber.studentNumber}
-                                       value={studentNumber.studentNumber}>{studentNumber.name}</option>
-                    })}
+                    {students
+                        ? students.map((studentNumber) => {
+                             return <option key={studentNumber.studentNumber}
+                                       value={studentNumber.studentNumber}>
+                                 {studentNumber.name}
+                             </option>})
+                        : <p>Er zijn geen studenten om weer te geven</p>}
                 </select>
                 <form onSubmit={() => sendUpload(studentNumber, 'photo')}>
                     <label htmlFor="student-image">
@@ -112,6 +122,8 @@ function ImageRequestPage() {
                     }
                     <button type="submit">Uploaden</button>
                 </form>
+                {succes && <p className="success-message">De foto is succesvol geüpload!</p>}
+                {error && <p className="error-message">Er is iets misgegaan bij het uploaden van de foto. Probeer het opnieuw.</p>}
             </div>
         </div>
     );

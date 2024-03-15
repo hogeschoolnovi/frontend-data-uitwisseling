@@ -40,3 +40,11 @@ nav ul {
   height: 100vh;
   margin: 40px;
 }
+
+.error-message {
+  color: red;
+}
+
+.success-message {
+  color: green;
+}

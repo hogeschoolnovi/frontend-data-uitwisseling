@@ -5,7 +5,6 @@ import ImageRequestPage from './pages/imageRequest/ImageRequestPage';
 import PostRequestPage from './pages/postRequest/PostRequestPage';
 import GetRequestPage from './pages/getRequest/GetRequestPage';
 import HomePage from './pages/home/HomePage';
-import './test'
 
 function App() {
   return (
