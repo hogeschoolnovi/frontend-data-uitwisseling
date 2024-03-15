@@ -1,11 +1,10 @@
 import React from 'react';
-import './App.css';
 import { Link, Route, Routes } from 'react-router-dom';
 import ImageRequestPage from './pages/imageRequest/ImageRequestPage';
 import PostRequestPage from './pages/postRequest/PostRequestPage';
 import GetRequestPage from './pages/getRequest/GetRequestPage';
 import HomePage from './pages/home/HomePage';
-import './test'
+import './App.css';
 
 function App() {
   return (

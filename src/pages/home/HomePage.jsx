@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import './HomePage.css';
 import axios from "axios";
-import {logDOM} from "@testing-library/react";
+import './HomePage.css';
 
 function HomePage() {
 
