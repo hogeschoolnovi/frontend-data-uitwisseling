@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import ImageRequestPage from './pages/imageRequest/ImageRequestPage';
 import PostRequestPage from './pages/postRequest/PostRequestPage';
 import GetRequestPage from './pages/getRequest/GetRequestPage';
@@ -17,20 +17,12 @@ function App() {
           <li><Link to="/image-request">Bestanden</Link></li>
         </ul>
       </nav>
-      <Switch>
-        <Route exact path="/">
-          <HomePage />
-        </Route>
-        <Route exact path="/get-request">
-          <GetRequestPage />
-        </Route>
-        <Route exact path="/post-request">
-          <PostRequestPage />
-        </Route>
-        <Route exact path="/image-request">
-          <ImageRequestPage />
-        </Route>
-      </Switch>
+      <Routes>
+        <Route path="/" element={ <HomePage />}/>
+        <Route path="/get-request" element={<GetRequestPage />}/>
+        <Route path="/post-request" element={<PostRequestPage />}/>
+        <Route path="/image-request" element={<ImageRequestPage />}/>
+      </Routes>
     </>
   );
 }
