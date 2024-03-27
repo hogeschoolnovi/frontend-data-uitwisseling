@@ -1,15 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import './ImageRequestPage.css';
 import axios from "axios";
 
 function ImageRequestPage() {
+
+    const initialMessages = {
+        photo: {success: false, error: false},
+        diploma: {success: false, error: false}
+    };
+
     const [students, setStudents] = useState([]);
     const [image, setImage] = useState('');
     const [previewUrlPhoto, setPreviewUrlPhoto] = useState('');
     const [previewUrlDiploma, setPreviewUrlDiploma] = useState('');
     const [studentNumber, setStudentNumber] = useState(0);
-    const [error, setError] = useState(null);
-    const [succes, toggleSucces] = useState(false);
+    const [messages, setMessages] = useState(initialMessages);
+
 
     useEffect(() => {
         async function fetchStudents() {
@@ -17,11 +23,11 @@ function ImageRequestPage() {
                 const response = await axios.get('http://localhost:8080/students');
                 // Plaats alle studenten in de state zodat we het op de pagina kunnen gebruiken
                 setStudents(response.data);
-                console.log(response.data);
-            } catch(e) {
+            } catch (e) {
                 console.error(e);
             }
         }
+
         void fetchStudents();
     }, []);
 
@@ -31,32 +37,40 @@ function ImageRequestPage() {
         setImage(uploadedImage);
         console.log(e.target.files[0])
 
-        if (type === 'photo'){
+        if (type === 'photo') {
             setPreviewUrlPhoto(URL.createObjectURL(uploadedImage));
-        } else{
+        } else {
             setPreviewUrlDiploma(URL.createObjectURL(uploadedImage))
         }
     }
 
-    async function sendUpload(id, path) {
-        setError(null);
-        toggleSucces(false);
+    async function sendUpload(e, id, path) {
+        e.preventDefault();
+        setMessages(initialMessages)
 
+        const formData = new FormData();
+        formData.append("file", image);
         try {
-            const formData = new FormData();
-            formData.append("file", image);
-
             const result = await axios.post(`http://localhost:8080/students/${id}/${path}`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 },
             });
-            console.log(result.data);
-            toggleSucces(true);
+            console.log(result);
+            setMessages(prevMessages => ({
+                ...prevMessages,
+                [path]: {success: true, error: false}
+            }));
         } catch (e) {
             console.error(e);
-            setError(e);
+            setMessages(prevMessages => ({
+                ...prevMessages,
+                [path]: {success: false, error: true}
+            }));
         }
+        setImage('');
+        setPreviewUrlPhoto('');
+        setPreviewUrlDiploma('');
     }
 
     function handleStudentNumber(e) {
@@ -64,7 +78,6 @@ function ImageRequestPage() {
         setStudentNumber(e.target.value);
         console.log('Gekozen studentnummer is:', e.target.value);
     }
-
 
     return (
         <div className="upload-page-container">
@@ -75,13 +88,14 @@ function ImageRequestPage() {
                     <option disabled value='DEFAULT'> -- select an option --</option>
                     {students
                         ? students.map((studentNumber) => {
-                             return <option key={studentNumber.studentNumber}
-                                       value={studentNumber.studentNumber}>
-                                 {studentNumber.name}
-                             </option>})
+                            return <option key={studentNumber.studentNumber}
+                                           value={studentNumber.studentNumber}>
+                                {studentNumber.name}
+                            </option>
+                        })
                         : <p>Er zijn geen studenten om weer te geven</p>}
                 </select>
-                <form onSubmit={() => sendUpload(studentNumber, 'photo')}>
+                <form onSubmit={(e) => sendUpload(e, studentNumber, 'photo')}>
                     <label htmlFor="student-image">
                         Kies afbeelding:
                         <input type="file" name="image-field" id="student-image"
@@ -96,6 +110,10 @@ function ImageRequestPage() {
                     }
                     <button type="submit">Uploaden</button>
                 </form>
+                {messages.photo.success && <p className="success-message">De foto is succesvol geüpload!</p>}
+                {messages.photo.error &&
+                    <p className="error-message">Er is iets misgegaan bij het uploaden van de foto. Probeer het
+                        opnieuw.</p>}
             </div>
             <div className="second-page-container">
                 <h1>Diploma uploaden en preview bekijken</h1>
@@ -107,7 +125,7 @@ function ImageRequestPage() {
                                        value={studentNumber.studentNumber}>{studentNumber.name}</option>
                     })}
                 </select>
-                <form onSubmit={() => sendUpload(studentNumber, 'diploma')}>
+                <form onSubmit={(e) => sendUpload(e, studentNumber, 'diploma')}>
                     <label htmlFor="student-image">
                         Kies afbeelding:
                         <input type="file" name="image-field" id="student-image"
@@ -122,8 +140,10 @@ function ImageRequestPage() {
                     }
                     <button type="submit">Uploaden</button>
                 </form>
-                {succes && <p className="success-message">De foto is succesvol geüpload!</p>}
-                {error && <p className="error-message">Er is iets misgegaan bij het uploaden van de foto. Probeer het opnieuw.</p>}
+                {messages.diploma.success && <p className="success-message">De foto is succesvol geüpload!</p>}
+                {messages.diploma.error &&
+                    <p className="error-message">Er is iets misgegaan bij het uploaden van de foto. Probeer het
+                        opnieuw.</p>}
             </div>
         </div>
     );
