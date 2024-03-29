@@ -14,7 +14,7 @@ function PostRequestPage() {
     return (
         <div className="page-container">
             <h1>Een nieuwe student toevoegen</h1>
-            {addSucces === true && <p className="success-message">Student is toegevoegd!</p>}
+            {/*{addSucces === true && <p className="success-message">Student is toegevoegd!</p>}*/}
             <form onSubmit={addStudent}>
                 <label htmlFor="student-name">
                     Naam en achternaam:
@@ -57,7 +57,7 @@ function PostRequestPage() {
                     Voeg student toe
                 </button>
             </form>
-            {error && <p className="error-message">Toevoegen is mislukt. Probeer het opnieuw</p>}
+            {/*{error && <p className="error-message">Toevoegen is mislukt. Probeer het opnieuw</p>}*/}
         </div>
     );
 }
