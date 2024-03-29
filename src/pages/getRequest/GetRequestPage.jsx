@@ -73,7 +73,7 @@ function GetRequestPage() {
                     return <tr key={student.studentNumber}>
                         <td>{student.studentNumber}</td>
                         {/*Even checken of er uberhaupt een file is, en zo ja, dan laten we hem zien!*/}
-                        <td>{student.studentPhoto && <img src={student.studentPhoto.url}
+                        <td>{student.studentPhoto && <img src={`http://localhost:8080/students/${student.studentNumber}/photo`}
                                                           alt={student.name}
                                                           onClick={() => fetchData(student.studentNumber, 'photo')}/>
                         }
