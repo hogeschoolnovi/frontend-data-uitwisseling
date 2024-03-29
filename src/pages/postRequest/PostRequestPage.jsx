@@ -6,29 +6,9 @@ function PostRequestPage() {
     const [studentName, setStudentName] = useState('');
     const [studentEmail, setStudentEmail] = useState('');
     const [studentCourse, setStudentCourse] = useState('bachelor');
-    const [addSucces, toggleAddSuccess] = useState(false);
-    const [error, setError] = useState(null);
 
-    async function addStudent(e) {
-        // voorkom refresh
-        e.preventDefault();
-        console.log(studentName, studentEmail, studentCourse);
-        setError(null);
+    function addStudent(){
 
-        try {
-            // Verstuur de data in een object en zorg dat de keys overeenkomen met die in de backend
-            const response = await axios.post('http://localhost:8080/students', {
-                name: studentName,
-                emailAddress: studentEmail,
-                course: studentCourse,
-            });
-
-            console.log(response.data);
-            toggleAddSuccess(true);
-        } catch (e) {
-            console.error(e);
-            setError(e);
-        }
     }
 
     return (
