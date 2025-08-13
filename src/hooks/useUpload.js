@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-const UseUpload = (url) => {
+const useUpload = (url) => {
     const [image, setImage] = useState([]);
     const [previewUrlPhoto, setPreviewUrlPhoto] = useState('');
     const [previewUrlDiploma, setPreviewUrlDiploma] = useState('');
@@ -44,4 +44,4 @@ const UseUpload = (url) => {
     return { previewUrlPhoto, previewUrlDiploma, studentNumber, handleImageChange, sendUpload, handleStudentNumber };
 };
 
-export default UseUpload;
+export default useUpload;

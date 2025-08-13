@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-const UseStudents = (url, trigger) => {
+const useStudents = (url, trigger) => {
 
     const [students, setStudents] = useState([]);
 
@@ -20,4 +20,4 @@ const UseStudents = (url, trigger) => {
     return { students }
 };
 
-export default UseStudents;
+export default useStudents;
